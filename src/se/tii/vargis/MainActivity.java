@@ -1,7 +1,6 @@
 package se.tii.vargis;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
@@ -12,12 +11,9 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.media.MediaPlayer;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -26,7 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TagDispatch extends Activity implements OnQRCodeReadListener {
+public class MainActivity extends Activity implements OnQRCodeReadListener {
     private TextView mTextView;
     private Button mediaButton;
     private NfcAdapter mNfcAdapter;
@@ -81,22 +77,6 @@ public class TagDispatch extends Activity implements OnQRCodeReadListener {
         mNFCTechLists = new String[][] { new String[] { NfcF.class.getName() } };
         */
         
-        Button qrButton = (Button) findViewById(R.id.buttonQR);
-        
-        qrButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(TagDispatch.this, QRReaderActivity.class);
-				startActivity(i);
-				
-				/*
-				Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                //intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-                startActivityForResult(intent, 0);
-                */
-			}
-		});
         
         mediaButton.setOnClickListener(new OnClickListener() {
 			
@@ -135,14 +115,7 @@ public class TagDispatch extends Activity implements OnQRCodeReadListener {
         String action = intent.getAction();
         Log.d("TagDispatch", "intent type="+intent.getType());
         
-        String extraId = "";
-        
-        //String extraNdefMsg = intent.getParcelableExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
- 
-        // parse through all NDEF messages and their records and pick text type only
-        Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-        
         
         // probably there is a better way to do this part
         byte[] tagIdByte = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
@@ -158,44 +131,8 @@ public class TagDispatch extends Activity implements OnQRCodeReadListener {
         
         String s = action + "\n\n" + tag.toString() + " id:"+tagId;
         
-        /*
-        NfcA nfca = NfcA.get(tag);
-        
-        try{
-            nfca.connect();
-            Short sak = nfca.getSak();
-            byte[] a = nfca.getAtqa();
-            String atqa = new String(a, Charset.forName("US-ASCII"));
-            Log.d("TagDispatch","SAK = "+sak+"\nATQA = "+atqa);
-            nfca.close();
-        }
-        catch(Exception e){
-            Log.e("TagDispatch", "Error when reading tag");
-        }*/
-        
         foundTag(tagId);
         
-        if (data != null) {
-            try {
-                for (int i = 0; i < data.length; i++) {
-                    NdefRecord [] recs = ((NdefMessage)data[i]).getRecords();
-                    for (int j = 0; j < recs.length; j++) {
-                        if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
-                            Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) {
-                            byte[] payload = recs[j].getPayload();
-                            String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
-                            int langCodeLen = payload[0] & 0077;
- 
-                            s += ("\n\nNdefMessage[" + i + "], NdefRecord[" + j + "]:\n\"" +
-                                 new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
-                                 textEncoding) + "\"");
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                Log.e("TagDispatch", e.toString());
-            }
-        }
  
         mTextView.setText(s);
     }
