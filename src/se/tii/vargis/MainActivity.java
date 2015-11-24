@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.PointF;
+import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -42,7 +43,8 @@ public class MainActivity extends Activity implements OnQRCodeReadListener {
         Log.d(getString(R.string.tag), "onCreate()");
         
         tagSounds.put("ae 66 c0 aa ", R.raw.urbanum1);
-        tagSounds.put("cf 07 df 10 00 01 04 e0 ", R.raw.urbanum2);
+        tagSounds.put("6e 7f bf aa ", R.raw.urbanum2);
+        tagSounds.put("cf 07 df 10 00 01 04 e0 ", R.raw.urbanum3);
         
         codeSounds.put("gsm:urbanum1", R.raw.urbanum1);
         codeSounds.put("gsm:urbanum2", R.raw.urbanum2);
@@ -141,11 +143,21 @@ public class MainActivity extends Activity implements OnQRCodeReadListener {
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(getString(R.string.tag), "onPause");
         
         mydecoderview.getCameraManager().stopPreview();
  
         if (mNfcAdapter != null)
             mNfcAdapter.disableForegroundDispatch(this);
+    }
+    
+    @Override
+    protected void onStop() {
+    	super.onStop();
+    	
+    	Camera camera = mydecoderview.getCameraManager().getCamera();
+    	if(camera != null)
+    		camera.release();
     }
     
     private void playSound(int fileName)
