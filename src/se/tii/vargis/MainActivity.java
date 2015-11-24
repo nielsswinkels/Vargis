@@ -39,7 +39,7 @@ public class MainActivity extends Activity implements OnQRCodeReadListener {
     @Override
     public void onCreate(Bundle savedState) {
         super.onCreate(savedState);
-        Log.d("TagDispatch", "onCreate()");
+        Log.d(getString(R.string.tag), "onCreate()");
         
         tagSounds.put("ae 66 c0 aa ", R.raw.urbanum1);
         tagSounds.put("cf 07 df 10 00 01 04 e0 ", R.raw.urbanum2);
@@ -64,19 +64,6 @@ public class MainActivity extends Activity implements OnQRCodeReadListener {
         // create an intent with tag data and deliver to this activity
         mPendingIntent = PendingIntent.getActivity(this, 0,
             new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
- 
-        // set an intent filter for all MIME data
-        /*IntentFilter ndefIntent = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
-        try {
-            ndefIntent.addDataType("* /*");
-            mIntentFilters = new IntentFilter[] { ndefIntent };
-        } catch (Exception e) {
-            Log.e("TagDispatch", e.toString());
-        }
- 
-        mNFCTechLists = new String[][] { new String[] { NfcF.class.getName() } };
-        */
-        
         
         mediaButton.setOnClickListener(new OnClickListener() {
 			
@@ -160,7 +147,7 @@ public class MainActivity extends Activity implements OnQRCodeReadListener {
     
     private void playSound(int fileName)
     {
-    	Log.d("TagDispatch", "Playing sound");
+    	Log.d(getString(R.string.tag), "Playing sound");
     	if(mediaPlayer != null && mediaPlayer.isPlaying())
     		mediaPlayer.stop();
     	//mpintro = MediaPlayer.create(this, Uri.parse(Environment.getExternalStorageDirectory().getPath()+ "/Music/intro.mp3"));
@@ -223,12 +210,12 @@ public class MainActivity extends Activity implements OnQRCodeReadListener {
      {
     	 if(tagSounds.containsKey(tagId))
          {
-         	Log.d("TagDispatch", "match tag");
+         	Log.d(getString(R.string.tag), "match tag");
          	playSound(tagSounds.get(tagId));
          }
          else
          {
-         	Log.d("TagDispatch", "NO MATCH <"+ tagId+">");
+         	Log.d(getString(R.string.tag), "NO MATCH <"+ tagId+">");
          }
      }
      
@@ -237,13 +224,13 @@ public class MainActivity extends Activity implements OnQRCodeReadListener {
     	 
     	 if(codeSounds.containsKey(code))
          {
-         	Log.d("TagDispatch", "match code");
+         	Log.d(getString(R.string.tag), "match code");
          	if(!(mediaPlayer != null && mediaPlayer.isPlaying() && lastSound == codeSounds.get(code)))
          		playSound(codeSounds.get(code));
          }
          else
          {
-         	Log.d("TagDispatch", "NO MATCH <"+ code+">");
+         	Log.d(getString(R.string.tag), "NO MATCH <"+ code+">");
          }
      }
 }

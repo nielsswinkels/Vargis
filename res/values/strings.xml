@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Vargis</string>
+    <string name="tag">vargis</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>
