@@ -111,9 +111,9 @@ public class MainActivity extends Activity implements OnQRCodeReadListener {
     @Override
     public void onNewIntent(Intent intent) {
     	
-    	Log.d("TagDispatch", "onNewIntent()");
+    	Log.d(getString(R.string.tag), "onNewIntent()");
         String action = intent.getAction();
-        Log.d("TagDispatch", "intent type="+intent.getType());
+        Log.d(getString(R.string.tag), "intent type="+intent.getType());
         
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         
