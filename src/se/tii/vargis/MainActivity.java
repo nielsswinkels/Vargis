@@ -127,7 +127,10 @@ public class MainActivity extends Activity implements OnQRCodeReadListener {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(getString(R.string.tag), "onResume");
  
+        //mydecoderview.surfaceCreated(mydecoderview.getHolder());
+        //mydecoderview.getCameraManager().getCamera().open();
         mydecoderview.getCameraManager().startPreview();
         
         if (mNfcAdapter != null)
