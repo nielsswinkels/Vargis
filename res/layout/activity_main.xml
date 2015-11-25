@@ -9,14 +9,14 @@
         android:id="@+id/qrdecoderview"
         android:layout_width="match_parent"
         android:layout_height="0dip" 
-        android:layout_weight="3"/>
+        android:layout_weight="1"/>e
     
     <TextView
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="0dip"
         android:text="@string/hello_world" 
-        android:layout_weight="1"/>
+        android:layout_weight="100"/>
     
     
     <Button 
@@ -24,6 +24,6 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:textSize="50sp"
-        android:layout_weight="1"/>
+        android:layout_weight="100"/>
 
 </LinearLayout>

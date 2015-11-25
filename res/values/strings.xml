@@ -5,4 +5,17 @@
     <string name="tag">vargis</string>
     <string name="hello_world">Hello world!</string>
 
+    
+    
+    
+    <string name="preference_language">preference_language</string>
+    <string-array
+        name="preference_language_options">
+        <item>sv</item>
+        <item>en</item>
+    </string-array>
+    <string name="sv">Svenska</string>
+    <string name="en">English</string>
+    
+
 </resources>
